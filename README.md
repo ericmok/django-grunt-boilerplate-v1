@@ -50,7 +50,7 @@ Directory structure assumes certain Ruby on Rails conventions. This may result i
 
 A view.py file named X that contains a function Y uses the template in folder X which contains a page called Y.
 
-
+```
 - Gruntfile
 - config
     - settings
@@ -140,7 +140,7 @@ A view.py file named X that contains a function Y uses the template in folder X 
             .
         - tests (Django tests)
         - models.py
-
+```
 
 
 
