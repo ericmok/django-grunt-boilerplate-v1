@@ -12,7 +12,9 @@ the other terminal for running the django dev runserver.
 -`grunt django` to run js tests, django tests, and django dev runserver                    
 
 -`grunt javascripts` to run jshint, karma, and concatenation
+
 -`grunt stylesheets` to build less files
+
 -`grunt dev` to watch for changes for either js/less and compile them 
 
 -`grunt images` to copy images from assets folder to static folder. Can be configured to ignore photoshop files, etc.
