@@ -27,9 +27,31 @@ the other terminal for running the django dev runserver.
 all images, copying bower files, and finally running django tests and a dev runserver.
 
 
+Starting up
+-------------
+
+The django settings are split across multiple settings files.
+Wsgi.py, manage.py are both set to use production level settings.
+
+To start a django server for development testing, you run
+`python manage.py runserver --settings=config.settings.dev`
+
+Multiple people working on the same django project might have different dev files so shortcuts to run
+the server under different environments should be added to the gruntfile.
+
+Finally, both a `secret.key` and `db.key` file must be in the settings folder. These files correspond
+to django SECRET_KEY and the database password and are kept outside version control.
+
+
 
 Uses following directory structure
 ----------------------------------
+
+Directory structure assumes certain Ruby on Rails conventions. This may result in fat apps.
+
+A view.py file named X that contains a function Y uses the template in folder X which contains a page called Y.
+
+
 - Gruntfile
 - config
     - settings
@@ -41,28 +63,28 @@ Uses following directory structure
             - bower
             - javascripts
                 - Page 0
-                    | a.js
-                    | b.js
-                    | c.js
+                    - a.js
+                    - b.js
+                    - c.js
                 - Page 1
                 .
                 .
             - tests
-                | Test files for angular w/not
+                - Test files for angular w/not
             -stylesheets
                 - Layout
-                    | layout.less (imports a.less, b.less)
-                    | a.less 
-                    | b.less
+                    - layout.less (imports a.less, b.less)
+                    - a.less 
+                    - b.less
                 - Page 1
-                    | page1.less (imports layout.less if req'd, x.less, y.less)
-                    | x.less
-                    | y.less
+                    - page1.less (imports layout.less if req'd, x.less, y.less)
+                    - x.less
+                    - y.less
                 .
                 .
             - images
                 - Page 0
-                    | images .jpg, .png, .bmp, .svg
+                    - images .jpg, .png, .bmp, .svg
                 - Page 1
                 .
                 .
@@ -71,47 +93,48 @@ Uses following directory structure
             - appName (to avoid collisions with other static)
                 - javascripts
                     - Page 0
-                        | page0.js 
+                        - page0.js 
                     - Page 1
-                        | page1.js
+                        - page1.js
                     - Page 2
                     .
                     .
                 - stylesheets
                     - Layout
-                        | page0.css
+                        - page0.css
                     - Page 1
-                        | page1.css
+                        - page1.css
                     - Page 2
                     .
                     .
                 -images
                     - Page 0 
-                        | images..
+                        - images..
                     - Page 1
-                        | images..
+                        - images..
                     - Page 2
                     .
                     .
         - templates
             - appName
                 - Page0
-                    | *.html
+                    - *.html
                 - Page 1
-                    | *.html
+                    - *.html
                 - Page 2
                 .
                 .
         - views
-            | __init__.py
-            | Page0.py 
+            - __init__.py
+            - Page0.py 
                 > functions map to templates using an MVC convention
-            | Page1.py
-            | Page2.py
+            - Page1.py
+            - Page2.py
             .
             .
         - tests (Django tests)
         - models
+
 
 
 
