@@ -15,20 +15,19 @@ Using Grunt
 
 ### Workflow Example:
 
-Follow scaffolding convention to create a new view/function, template/page.
-Make sure you add the new view function to urls.py.
+Add files to assets folder in accordance to directory structure
 
-When developing:
+When **developing**:
 - Terminal 1: `grunt django`  > Occasionally restart command to run tests and run server
 - Terminal 2: `grunt dev`  > Recompiles whenever changes are made to js/less
 
-Occasionally:
+**Occasionally**:
 If you added images to your assets/images/**/ folder:
 - Terminal 1: Don't touch
 - Terminal 2: `grunt images` 
 - Terminal 2: `grunt dev`
 
-Optionally:
+**Optionally**:
 If you downloaded some new bower_components:
 - Terminal 1: Don't touch
 - Terminal 2: `grunt bower`
@@ -80,6 +79,11 @@ Directory structure
 Directory structure assumes certain Ruby on Rails conventions. This may result in **fat apps**. 
 
 A view.py file named X that contains a function Y uses the template in folder X which contains a page called Y.
+
+## Django related directory structure is optional!
+
+The gruntfile only cares about what is inside the **assets** folder for the apps it is set for!
+
 
 ```
 - Gruntfile
