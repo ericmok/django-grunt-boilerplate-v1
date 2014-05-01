@@ -79,7 +79,7 @@ Directory structure assumes certain Ruby on Rails conventions. This may result i
 
 A view.py file named X that contains a function Y uses the template in folder X which contains a page called Y.
 
-## Django related directory structure is optional!
+###### Django related directory structure is optional!
 
 The gruntfile only cares about what is inside the **assets** folder for the apps it is set for!
 
