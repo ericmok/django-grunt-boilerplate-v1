@@ -10,12 +10,11 @@ module.exports = function(grunt) {
         Compiles the **assets** folder to the **static** folder for specified apps
 
         Uses following directory structure
+        - Gruntfile
         - config
             - settings
         - django-app 0
         - django-app 1
-            - Gruntfile
-            - config
             - appName
                 - assets <<<<<<<<<<<<<<<<<<<< IN 
                     - bower

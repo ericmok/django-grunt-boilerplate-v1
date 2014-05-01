@@ -97,83 +97,81 @@ The gruntfile only cares about what is inside the **assets** folder for the apps
 - django-app 0
     - (another app)
 - django-app 1
-    - config
-    - appName
-        - assets <<<<<<<<<<<<<<<<<<<< IN 
-            - bower
+    - assets <<<<<<<<<<<<<<<<<<<< IN 
+        - bower
+        - javascripts
+            - Page 0
+                - a.js
+                - b.js
+                - c.js
+            - Page 1
+            .
+            .
+        - tests
+            - Test files for angular w/not
+        -stylesheets
+            - Layout
+                - layout.less (imports a.less, b.less)
+                - a.less 
+                - b.less
+            - Page 1
+                - page1.less (imports layout.less if req'd, x.less, y.less)
+                - x.less
+                - y.less
+            .
+            .
+        - images
+            - Page 0
+                - images .jpg, .png, .bmp, .svg
+            - Page 1
+            .
+            .
+    - static >>>>>>>>>>>>>>>>>>>> OUT
+        -bower (this goes on the top level so all apps can share it)
+        - appName (to avoid collisions with other static)
             - javascripts
                 - Page 0
-                    - a.js
-                    - b.js
-                    - c.js
+                    - page0.js 
                 - Page 1
-                .
-                .
-            - tests
-                - Test files for angular w/not
-            -stylesheets
-                - Layout
-                    - layout.less (imports a.less, b.less)
-                    - a.less 
-                    - b.less
-                - Page 1
-                    - page1.less (imports layout.less if req'd, x.less, y.less)
-                    - x.less
-                    - y.less
-                .
-                .
-            - images
-                - Page 0
-                    - images .jpg, .png, .bmp, .svg
-                - Page 1
-                .
-                .
-        - static >>>>>>>>>>>>>>>>>>>> OUT
-            -bower (this goes on the top level so all apps can share it)
-            - appName (to avoid collisions with other static)
-                - javascripts
-                    - Page 0
-                        - page0.js 
-                    - Page 1
-                        - page1.js
-                    - Page 2
-                    .
-                    .
-                - stylesheets
-                    - Layout
-                        - page0.css
-                    - Page 1
-                        - page1.css
-                    - Page 2
-                    .
-                    .
-                -images
-                    - Page 0 
-                        - images..
-                    - Page 1
-                        - images..
-                    - Page 2
-                    .
-                    .
-        - templates
-            - appName
-                - Page0
-                    - *.html
-                - Page 1
-                    - *.html
+                    - page1.js
                 - Page 2
                 .
                 .
-        - views
-            - __init__.py
-            - Page0.py 
-                > functions map to templates using an MVC convention
-            - Page1.py
-            - Page2.py
+            - stylesheets
+                - Layout
+                    - page0.css
+                - Page 1
+                    - page1.css
+                - Page 2
+                .
+                .
+            -images
+                - Page 0 
+                    - images..
+                - Page 1
+                    - images..
+                - Page 2
+                .
+                .
+    - templates
+        - appName
+            - Page0
+                - *.html
+            - Page 1
+                - *.html
+            - Page 2
             .
             .
-        - tests (Django tests)
-        - models.py
+    - views
+        - __init__.py
+        - Page0.py 
+            > functions map to templates using an MVC convention
+        - Page1.py
+        - Page2.py
+        .
+        .
+    - tests (Django tests)
+    - models.py
 ```
 
 
