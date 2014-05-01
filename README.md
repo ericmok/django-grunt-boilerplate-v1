@@ -9,31 +9,30 @@ Compiles the **assets** folder to the **static** folder for specified apps
 You might need two terminals when developing. One terminal is for watching js/less files,
 the other terminal for running the django dev runserver.
 
-`grunt django` to run js tests, django tests, and django dev runserver 
-                    
-`grunt javascripts` to run jshint, karma, and concatenation
-`grunt stylesheets` to build less files
-`grunt dev` to watch for changes for either js/less and compile them 
+-`grunt django` to run js tests, django tests, and django dev runserver                    
 
-`grunt images` to copy images from assets folder to static folder. Can be configured to ignore photoshop files, etc.
+-`grunt javascripts` to run jshint, karma, and concatenation
+-`grunt stylesheets` to build less files
+-`grunt dev` to watch for changes for either js/less and compile them 
 
-`grunt bower` to copy bower_components into the static folder
+-`grunt images` to copy images from assets folder to static folder. Can be configured to ignore photoshop files, etc.
 
-`grunt django` to run django tests and start a dev runserver
+-`grunt bower` to copy bower_components into the static folder
 
-`grunt` to clean static folder and start the whole build, compiling all scripts, copying
+-`grunt django` to run django tests and start a dev runserver
+
+-`grunt` to clean static folder and start the whole build, compiling all scripts, copying
 all images, copying bower files, and finally running django tests and a dev runserver.
 
 
 
 Uses following directory structure
 ----------------------------------
-
+- Gruntfile
 - config
     - settings
 - django-app 0
 - django-app 1
-    - Gruntfile
     - config
     - appName
         - assets <<<<<<<<<<<<<<<<<<<< IN 
