@@ -30,6 +30,9 @@ all images, copying bower files, and finally running django tests and a dev runs
 Starting up
 -------------
 
+Both a `secret.key` and `db.key` file must be added to the settings folder. The files correspond
+to django SECRET_KEY and the database password and are kept outside version control. The `secret.key` file should contain a long string of random characters ~64+ characters. The `db.key` file may be empty.
+
 The django settings are split across multiple settings files.
 Wsgi.py, manage.py are both set to use production level settings.
 
@@ -39,15 +42,11 @@ To start a django server for development testing, you run
 Multiple people working on the same django project might have different dev files so shortcuts to run
 the server under different environments should be added to the gruntfile.
 
-Finally, both a `secret.key` and `db.key` file must be in the settings folder. These files correspond
-to django SECRET_KEY and the database password and are kept outside version control.
 
+Directory structure
+--------------------
 
-
-Uses following directory structure
-----------------------------------
-
-Directory structure assumes certain Ruby on Rails conventions. This may result in fat apps. 
+Directory structure assumes certain Ruby on Rails conventions. This may result in **fat apps**. 
 
 A view.py file named X that contains a function Y uses the template in folder X which contains a page called Y.
 
