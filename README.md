@@ -47,7 +47,7 @@ to django SECRET_KEY and the database password and are kept outside version cont
 Uses following directory structure
 ----------------------------------
 
-Directory structure assumes certain Ruby on Rails conventions. This may result in fat apps.
+Directory structure assumes certain Ruby on Rails conventions. This may result in fat apps. 
 
 A view.py file named X that contains a function Y uses the template in folder X which contains a page called Y.
 
@@ -55,7 +55,14 @@ A view.py file named X that contains a function Y uses the template in folder X 
 - Gruntfile
 - config
     - settings
+        - dev.py 
+        - . (example: audrey_dev.py)
+        - . (example: danny_dev.py)
+        - production.py
+        - **secret.key** (both kept outside version control)
+        - **db.key**
 - django-app 0
+    - (another app)
 - django-app 1
     - config
     - appName
@@ -133,7 +140,7 @@ A view.py file named X that contains a function Y uses the template in folder X 
             .
             .
         - tests (Django tests)
-        - models
+        - models.py
 
 
 
@@ -142,8 +149,9 @@ A view.py file named X that contains a function Y uses the template in folder X 
 Notes
 --------------
 In progress: 
--This script only runs for a single app. Will run for a list of apps later.
--This script will not download bower_components
+
+- This script only runs for a single app. Will run for a list of apps later.
+- This script will not download bower_components
 
 Not sure where to put bower.json file yet. Should it be in assets folder or top
 level directory where gruntfile is?
