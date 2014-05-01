@@ -13,7 +13,7 @@ the other terminal for running the django dev runserver.
 Using Grunt
 ============
 
-h3 Workflow Example:
+### Workflow Example:
 
 Follow scaffolding convention to create a new view/function, template/page.
 Make sure you add the new view function to urls.py.
@@ -38,7 +38,7 @@ To download bower components, run `bower init` inside the assets folder. This wi
 files to assets/bower_components which the grunt file expects.
 
 
-h4 Grunt Commands
+#### Grunt Commands
 
 -`grunt django` to run js tests, django tests, and django dev runserver                    
 
