@@ -1,12 +1,11 @@
 django-grunt-boilerplate-v1
 ===========================
 
-Django Example Layout using Grunt for asset preprocessing
+Django Example Layout using Grunt for asset preprocessing.
     
-Compiles the **assets** folder to the **static** folder for specified apps
+Compiles the **assets** folder to the **static** folder for specified apps. 
 
-
-You might need two terminals when developing. One terminal is for watching js/less files,
+You might need **two** terminals when developing. One terminal is for watching js/less files,
 the other terminal for running the django dev runserver.
 
 
@@ -15,11 +14,11 @@ Using Grunt
 
 ### Workflow Example:
 
-Add files to assets folder in accordance to directory structure
+Add files to assets/ folder in accordance to directory structure.
 
-When **developing**:
-- Terminal 1: `grunt django`  > Occasionally restart command to run tests and run server
-- Terminal 2: `grunt dev`  > Recompiles whenever changes are made to js/less
+When developing:
+- Terminal 1: `grunt django`  > Occasionally restart this command to run tests and run server
+- Terminal 2: `grunt dev`  > This watches js/less files and recompiles whenever changes are made
 
 **Occasionally**:
 If you added images to your assets/images/**/ folder:
