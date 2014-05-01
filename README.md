@@ -9,6 +9,37 @@ Compiles the **assets** folder to the **static** folder for specified apps
 You might need two terminals when developing. One terminal is for watching js/less files,
 the other terminal for running the django dev runserver.
 
+
+Using Grunt
+============
+
+h3 Workflow Example:
+
+Follow scaffolding convention to create a new view/function, template/page.
+Make sure you add the new view function to urls.py.
+
+When developing:
+- Terminal 1: `grunt django`  > Occasionally restart command to run tests and run server
+- Terminal 2: `grunt dev`  > Recompiles whenever changes are made to js/less
+
+Occasionally:
+If you added images to your assets/images/**/ folder:
+- Terminal 1: Don't touch
+- Terminal 2: `grunt images` 
+- Terminal 2: `grunt dev`
+
+Optionally:
+If you downloaded some new bower_components:
+- Terminal 1: Don't touch
+- Terminal 2: `grunt bower`
+- Terminal 2: `grunt dev`
+
+To download bower components, run `bower init` inside the assets folder. This will download
+files to assets/bower_components which the grunt file expects.
+
+
+h4 Grunt Commands
+
 -`grunt django` to run js tests, django tests, and django dev runserver                    
 
 -`grunt javascripts` to run jshint, karma, and concatenation
