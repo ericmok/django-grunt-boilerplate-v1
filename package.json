@@ -1,0 +1,28 @@
+{
+  "name": "ericbuzz",
+  "version": "0.0.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "~0.4.4",
+    "grunt-cli": "~0.1.13",
+    "load-grunt-tasks": "~0.4.0"
+  },
+  "devDependencies": {
+    "grunt-karma": "^0.8.3",
+    "grunt": "^0.4.4",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-less": "^0.11.0",
+    "grunt-bg-shell": "^2.3.1",
+    "karma-jasmine": "^0.1.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
