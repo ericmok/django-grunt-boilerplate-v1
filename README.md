@@ -122,10 +122,14 @@ The gruntfile only cares about what is inside the **assets** folder for the apps
             - karma.conf.js
             - test-results.xml (not in version control)
         -stylesheets
-            - layout.less (imports a.less, b.less)            
-            - page1.less (imports layout.less if required, x.less, y.less)
-            .
-            .
+            - Layout
+                - layout.less (imports other .less files)
+                - components.less
+                - variables.less
+            - Page 1
+                - page1.less (can import layout.less/components.less/etc)
+                .
+                .
         - images
             - Page 0
                 - images .jpg, .png, .bmp, .svg (may include photoshop files)
