@@ -1,8 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>{% block title %}Hello World{% endblock %}</title>
-		
+
+		<link rel="stylesheet" href="{% static 'exampleapp/stylesheets/base.css' %}" />
+	
 		{% block head %}
 		{% endblock head %}
 	</head>

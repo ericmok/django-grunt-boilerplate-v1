@@ -100,7 +100,7 @@ module.exports = function(grunt) {
     var STYLESHEETS = 'stylesheets';
     var IMAGES = 'images';
 
-    var appNames = ['main'];
+    var appNames = ['exampleapp'];
 
     var DJANGO_DEV_SETTINGS = 'config.settings.dev';
     var DJANGO_MANAGE_DEV = 'python manage.py test --settings=' + DJANGO_DEV_SETTINGS + '; ' + 
@@ -458,7 +458,7 @@ module.exports = function(grunt) {
     
     grunt.registerTask('django', ['karma', 'bgShell:runDjango']);
                     
-    grunt.registerTask('javascripts', ['concatinclude:js', 'jshint:all', 'karma:unit']);
+    grunt.registerTask('javascripts', ['concatinclude:js', 'jshint:all', 'karma']);
     grunt.registerTask('stylesheets', ['less:build']);
     grunt.registerTask('dev', ['concurrent']);
     

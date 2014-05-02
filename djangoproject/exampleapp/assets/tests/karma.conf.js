@@ -19,7 +19,7 @@ module.exports = function(config) {
       //'../bower_components/angular-mocks/angular-mocks.js',
 
       // Test concatenated files
-      '../../static/main/javascripts/layout.js', /* base */
+      '../../static/main/javascripts/base.js', /* base */
       '../../static/main/javascripts/**/*.js',
       '**/*.spec.js'
     ],
