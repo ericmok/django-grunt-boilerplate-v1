@@ -4,3 +4,4 @@ db.key
 static/
 __pycache__/
 node_modules/
+test-results.xml

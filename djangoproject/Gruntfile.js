@@ -2,6 +2,8 @@
     module: true
 */
 
+var path = require('path');
+
 module.exports = function(grunt) {
 
     /* Inspired by https://github.com/pydanny/cookiecutter-django/blob/master/%7B%7Bcookiecutter.repo_name%7D%7D/Gruntfile.js */
@@ -49,19 +51,14 @@ module.exports = function(grunt) {
                     -bower (this goes on the top level so all apps can share it)
                     - appName (to avoid collisions with other static)
                         - javascripts
-                            - Page 0
-                                | page0.js 
-                            - Page 1
-                                | page1.js
-                            - Page 2
+                            - page0.js
+                            - page1.js
                             .
                             .
                         - stylesheets
-                            - Layout
-                                | page0.css
-                            - Page 1
-                                | page1.css
-                            - Page 2
+                            - page0.css
+                            - page1.css
+                            - page2.css
                             .
                             .
                         -images
@@ -103,143 +100,261 @@ module.exports = function(grunt) {
     var STYLESHEETS = 'stylesheets';
     var IMAGES = 'images';
 
-    var appName = 'main';
+    var appNames = ['main'];
 
     var DJANGO_DEV_SETTINGS = 'config.settings.dev';
     var DJANGO_MANAGE_DEV = 'python manage.py test --settings=' + DJANGO_DEV_SETTINGS + '; ' + 
                             'python manage.py runserver --settings=' + DJANGO_DEV_SETTINGS + '';
 
 
-    function paths(appName) {
+    function paths(listOfApps) {
         
+        function expand(location) {
+            
+            return {
+                template: function (app) { 
+
+                    if (!app) {
+                        return location; 
+                    } else {
+                        return location.replace(/\%app/g, app);
+                    }
+                },
+
+                strip: function(app, str) {
+
+                    if (str.indexOf(this.template(app)) > -1) {
+                        var ret = str.substring(this.template(app).length);
+                        console.log('str', str);
+                        console.log('temp', this.template(app));
+                        console.log('ret', ret);
+                        return ret;
+                    } else {
+                        return str;
+                    }
+
+                },
+
+                directories: function() { 
+                    var ret = [];
+            
+                    listOfApps.forEach(function(app) {
+                        ret.push(location.replace(/\%app/g, app));
+                    });
+                    return ret; 
+                },
+
+                subdirectories: function(path) {
+                    var subret = [];
+
+                    this.directories().forEach(function(dir) {
+                        subret.push(dir + path);
+                    });
+
+                    return subret;
+                }
+            };
+        }
+
         return {
             assets: {
-                root:               appName + '/' + ASSETS,
+                root:               expand( '%app' + '/' + ASSETS ),
 
-                bower:              appName + '/' + ASSETS + '/' + BOWER,
-                javascripts:        appName + '/' + ASSETS + '/' + JAVASCRIPTS,
-                tests:              appName + '/' + ASSETS + '/' + TESTS,
+                bower:              expand( '%app' + '/' + ASSETS + '/' + BOWER ),
+                javascripts:        expand( '%app' + '/' + ASSETS + '/' + JAVASCRIPTS ),
+                tests:              expand( '%app' + '/' + ASSETS + '/' + TESTS ),
 
-                stylesheets:        appName + '/' + ASSETS + '/' + STYLESHEETS,
-                images:             appName + '/' + ASSETS + '/' + IMAGES
+                stylesheets:        expand( '%app' + '/' + ASSETS + '/' + STYLESHEETS ),
+                images:             expand( '%app' + '/' + ASSETS + '/' + IMAGES )
             },
             static: {
-                root:               appName + '/' + STATIC,
+                root:               expand( '%app' + '/' + STATIC ),
 
-                bower:              appName + '/' + STATIC + '/' + BOWER,
+                bower:              expand( '%app' + '/' + STATIC + '/' + BOWER ),
 
-                app:                appName + '/' + STATIC + '/' + appName,
-                javascripts:        appName + '/' + STATIC + '/' + appName + '/' + JAVASCRIPTS, 
-                stylesheets:        appName + '/' + STATIC + '/' + appName + '/' + STYLESHEETS,
-                images:             appName + '/' + STATIC + '/' + appName + '/' + IMAGES
+                app:                expand( '%app' + '/' + STATIC + '/' + '%app' ),
+                javascripts:        expand( '%app' + '/' + STATIC + '/' + '%app' + '/' + JAVASCRIPTS ), 
+                stylesheets:        expand( '%app' + '/' + STATIC + '/' + '%app' + '/' + STYLESHEETS ),
+                images:             expand( '%app' + '/' + STATIC + '/' + '%app' + '/' + IMAGES )
             }
         };
     }
-    
-    grunt.initConfig({
+
+
+    function generateKarmaConfig(config, appNames) {
+        var ret = {};
+        
+        appNames.forEach(function(app) {
+
+            ret[app] = {
+                configFile: paths().assets.tests.template().replace(/\%app/g, app) + '/karma.conf.js',
+                singleRun: true, /* run the tests, and close the browser(s) */
+                autowatch: false,
+                browsers: ['PhantomJS'],
+                runnerPort: 9999,
+                //background: true
+            };
+
+        });
+
+        config.karma = ret;
+    }
+
+
+    var config = {
+
         pkg: grunt.file.readJSON('package.json'),
+
         jshint: {
             all: {
-                files: paths(appName).assets.javascripts + '/**.js'
+                files: {
+                    src: paths(appNames).assets.javascripts.subdirectories('/**/*.js')
+                }
             }
         },
-        concat: {
+
+        concatinclude: {
             js: {
                 files: [
                     {
                         /*
-                        - assets
-                            - javascripts
-                                - page0
-                                    - a.js
-                                    - b.js
-                                - page1
-                                    - a.js
-                                    - b.js
-                        >>>>>>>>>>>>>>>>> OUT
-                        - static
-                            - appName
-                                -javascripts
+                        -app
+                            - assets
+                                - javascripts
                                     - page0
-                                        - page0.js
+                                        - include.inc
+                                        - a.js
+                                        - b.js
                                     - page1
+                                        - include.inc
+                                        - a.js
+                                        - b.js
+                        >>>>>>>>>>>>>>>>> OUT
+                        -app
+                            - static
+                                - app
+                                    -javascripts
+                                        - page0.js
                                         - page1.js
                         */
                         expand: true,
-                        cwd: paths(appName).assets.javascripts,
                         flatten: false,
-                        src: ['**/*.js'],
-                        dest: paths(appName).static.javascripts,
+                        src: paths(appNames).assets.javascripts.subdirectories('/**/*.inc'),
+                        dest: ' ',
 
                         rename: function(dest, src) {
-                            //console.log('dest,src!' + dest + '||' + src);
-                            var jsContainingDirectory = src.substring(0, src.indexOf('/'));
-                            return dest + '/' +
-                                jsContainingDirectory + '/' + 
-                                jsContainingDirectory + '.js';
+                            console.log('dest,src!' + dest + '||' + src);
+                            
+                            var currentApp = src.substring(0, src.indexOf('/'));
+                            var filename = path.basename(path.dirname(src)) + '.js';
+
+                            return paths().static.javascripts.template().replace(/\%app/g, currentApp) + '/' + filename;
                         }
                     },
                 ]
             }
         },
+
         less: {
             build: {
                 files: [
                     {
                         /*
-                        - assets
-                            - stylesheets
-                                - layout
-                                    - layout.less
-                                    - a.less
-                                    - b.less
-                                - page0
-                                    - page0.less 
-                                    - a.less 
-                                    - b.less
+                        -app
+                            - assets
+                                - stylesheets
+                                    - layout
+                                        - layout.less (imports a.less, b.less)
+                                        - a.less
+                                        - b.less
+                                    - page0
+                                        - page0.less (imports a.less, b.less)
+                                        - a.less 
+                                        - b.less
                         >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OUT
-                        - static
-                            - stylesheets
-                                - layout
-                                    - layout.css
-                                - page0
-                                    - page0.css
+                        -app
+                            - static
+                                -app
+                                    - stylesheets
+                                        - layout
+                                            - layout.css
+                                        - page0
+                                            - page0.css
                         */
                         expand: true,
-                        cwd: paths(appName).assets.stylesheets,
                         flatten: false,
-                        src: ['**/*.less'],
-                        dest: paths(appName).static.stylesheets,
+                        src: ['**/stylesheets**/**/*.less'],
+                        dest: 'change',
+                        filter: function(src) {
+                            
+                            /*
+                            Compile only the .less files that match the name
+                            of the containing directory.
+                            */
+
+                            var directory = path.basename( path.dirname(src) );
+                            var filenameWithoutExtension = path.basename(src).substring(0, path.basename(src).indexOf('.'));
+
+                            if (directory === filenameWithoutExtension) {
+                                return true;
+                            }
+
+                            return false;
+                        },
+                        rename: function(dest, src) {
+                            //console.log('src', src); /* app/assets/stylesheets/page/file.css */
+                            
+                            var app = src.substring(0, src.indexOf('/'));
+                            var filename = path.basename(src);
+                            var ret = paths().static.stylesheets.template().replace(/\%app/g, app) + '/' + filename;
+
+                            //console.log('ret', ret);
+                            return ret;
+                        },
                         ext: '.css'
                     },
                 ]    
             }
         },
+
         copy: {
             images: {
                files: [
                     {
                         /*
-                            - assets
-                                - images
-                                    - Layout
-                                        | jpg/png/bmp/svg
-                                    - Page 0
-                                        | ..
-                            >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                            - static
-                                - appName
+                            -app
+                                - assets
                                     - images
-                                        - Layout
-                                            | images
                                         - Page 0
-                                            | images
+                                            | jpg/png/bmp/svg
+                                        - Page 1
+                                            | ..
+                            >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                            -app
+                                - static
+                                    - appName
+                                        - images
+                                            - Page 0
+                                                | images
+                                            - Page 1
+                                                | images
                         */
                         expand: true,
-                        cwd: paths(appName).assets.images,
                         flatten: false,
-                        src: ['**/*.{jpg,png,bmp,svg,mpeg}'],
-                        dest: paths(appName).static.images
+                        src: paths(appNames).assets.images.subdirectories('/**/*.{jpg,png,bmp,svg,mpeg}'),
+                        dest: '',
+                        rename: function(dest, src) {
+                            console.log('rel');
+
+                            var app = src.substring(0, src.indexOf('/'));
+                            var page = path.basename( path.dirname(src) );
+                            var filename = path.basename(src);
+
+                            var ret = paths(appNames).static.images.template(app) + '/' + page + '/' + filename;
+                            console.log('Copying to...', ret);
+
+                            return ret;
+                        }
                     },
                 ]              
             },
@@ -254,29 +369,29 @@ module.exports = function(grunt) {
                             - bower
                         */
                         expand: true,
-                        cwd: paths(appName).assets.bower,
+                        //cwd: paths(appNames).assets.bower,
                         flatten: false,
-                        src: ['**/*.*'],
-                        dest: paths(appName).static.bower
+
+                        src: paths(appNames).assets.bower.subdirectories('/**/*{js,css}'),
+                        dest: '',
+
+                        rename: function(dest, src) {
+                            var app = src.substring(0, src.indexOf('/'));
+                            var ret = paths().static.bower.template(app) + '/' + paths().assets.bower.strip(app, src);
+
+                            return ret;
+                        }
                     },
                 ]    
             }
         },
+
         clean: {
             staticfiles: {
-                src: paths(appName).static.root
+                src: paths(appNames).static.root
             }
         },
-        karma: {
-            unit: {
-                configFile: paths(appName).assets.tests + '/karma.conf.js',
-                singleRun: true, /* run the tests, and close the browser(s) */
-                autowatch: false,
-                browsers: ['PhantomJS'],
-                runnerPort: 9999,
-                //background: true
-            }
-        },
+
         bgShell: {
             runDjango: {
                 _defaults: {
@@ -285,6 +400,7 @@ module.exports = function(grunt) {
                 cmd: DJANGO_MANAGE_DEV
             }
         },
+
         watch: {
             // WATCH DOESN'T WORK............
             //options: {
@@ -292,23 +408,23 @@ module.exports = function(grunt) {
                 //interrupt: true
             //},
             js: {
-                files: [paths(appName).assets.javascripts + '/**/*.js'],
+                files: paths(appNames).assets.javascripts.subdirectories('/**/*.{js,inc}'),
                 tasks: [
-                    'compile'
+                    'javascripts'
                 ]
             },
             less: {
-                files: [paths(appName).assets.stylesheets + '/**/*.less'],
+                files: paths(appNames).assets.stylesheets.subdirectories('/**/*.less'),
                 tasks: [
                     'less:build'
                 ]
             },
             karma: {
-                files: [
-                    paths(appName).assets.javascripts + '/**/*.{js,less}',
-                    paths(appName).assets.tests + '/**/*.{js,less}'
-                ],
-                tasks: ['karma:unit:run'],
+                files: 
+                    paths(appNames).assets.javascripts.subdirectories('/**/*.{js,inc}').concat(
+                        paths(appNames).assets.tests.subdirectories('/**/*.js}'))
+                ,
+                tasks: ['karma'],
             },
             django: {
                 // This cannot cancel already running runservers :\
@@ -324,7 +440,11 @@ module.exports = function(grunt) {
                 }
             }
         }
-    });
+    };
+
+    generateKarmaConfig(config, appNames);
+
+    grunt.initConfig(config);
     
     require('load-grunt-tasks')(grunt);
     // grunt.loadNpmTasks('grunt-contrib-watch');
@@ -338,7 +458,7 @@ module.exports = function(grunt) {
     
     grunt.registerTask('django', ['karma', 'bgShell:runDjango']);
                     
-    grunt.registerTask('javascripts', ['jshint:all', 'karma:unit', 'concat:js']);
+    grunt.registerTask('javascripts', ['concatinclude:js', 'jshint:all', 'karma:unit']);
     grunt.registerTask('stylesheets', ['less:build']);
     grunt.registerTask('dev', ['concurrent']);
     
