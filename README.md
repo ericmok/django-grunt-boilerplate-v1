@@ -12,6 +12,8 @@ the other terminal for running the django dev runserver.
 Using Grunt
 ============
 
+Add your app to the `appNames` array if you want it to be managed by Grunt commands.
+
 ### Workflow Example:
 
 Add files to assets/ folder in accordance to directory structure.
@@ -68,8 +70,7 @@ Wsgi.py, manage.py are both set to use production level settings.
 To start a django server for development testing, you run
 `python manage.py runserver --settings=config.settings.dev`
 
-Multiple people working on the same django project might have different dev files so shortcuts to run
-the server under different environments should be added to the gruntfile.
+Multiple people working on the same django project might have different dev files so shortcuts to run the server under different environments should be added to the gruntfile.
 
 
 Directory structure
