@@ -104,25 +104,30 @@ The gruntfile only cares about what is inside the **assets** folder for the apps
                 - a.js
                 - b.js
                 - c.js
+                - *page0.inc* (inclusion file determines the order of concatenation!)
             - Page 1
+                - x.js
+                - y.js
+                - page1.inc
             .
             .
         - tests
-            - Test files for angular w/not
-        -stylesheets
-            - Layout
-                - layout.less (imports a.less, b.less)
-                - a.less 
-                - b.less
+            - Page 0
+                - abc.spec.js  (These tests run on the concatenated version of the scripts)
             - Page 1
-                - page1.less (imports layout.less if req'd, x.less, y.less)
-                - x.less
-                - y.less
+                - somespec.spec.js
+                .
+                .
+            - karma.conf.js
+            - test-results.xml (not in version control)
+        -stylesheets
+            - layout.less (imports a.less, b.less)            
+            - page1.less (imports layout.less if required, x.less, y.less)
             .
             .
         - images
             - Page 0
-                - images .jpg, .png, .bmp, .svg
+                - images .jpg, .png, .bmp, .svg (may include photoshop files)
             - Page 1
             .
             .
@@ -130,24 +135,18 @@ The gruntfile only cares about what is inside the **assets** folder for the apps
         -bower (this goes on the top level so all apps can share it)
         - appName (to avoid collisions with other static)
             - javascripts
-                - Page 0
-                    - page0.js 
-                - Page 1
-                    - page1.js
-                - Page 2
+                - page0.js 
+                - page1.js
                 .
                 .
             - stylesheets
-                - Layout
-                    - page0.css
-                - Page 1
-                    - page1.css
-                - Page 2
+                - page0.css
+                - page1.css
                 .
                 .
             -images
                 - Page 0 
-                    - images..
+                    - images.. (.jpg, .png, .bmp, .svg)
                 - Page 1
                     - images..
                 - Page 2
@@ -181,7 +180,6 @@ Notes
 --------------
 In progress: 
 
-- This script only runs for a single app. Will run for a list of apps later.
 - This script will not download bower_components
 
 Not sure where to put bower.json file yet. Should it be in assets folder or top
