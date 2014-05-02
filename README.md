@@ -12,7 +12,7 @@ the other terminal for running the django dev runserver.
 Using Grunt
 ============
 
-Add your app to the `appNames` array if you want it to be managed by Grunt commands.
+Add your app to the Gruntfile by adding it to the `appNames` array if you want it to be managed by Grunt commands.
 
 ### Workflow Example:
 
